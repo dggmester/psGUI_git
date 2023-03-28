@@ -1,5 +1,7 @@
-###ha nem m¸kˆdne akkor elsınek futtatni ::: Set-ExecutionPolicy RemoteSigned
-### aktu·lis felhaszn·lÛ esetÈben ::: Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+###ha nem m√ºk√∂dne akkor els≈ënek futtatni ::: Set-ExecutionPolicy RemoteSigned
+### aktu√°lis felhaszn√°l√≥ eset√©ben ::: Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+###VER
+$VER           = '1.0.1'
 
 #[Console]::OutputEncoding
 ###CONF :::
@@ -10,12 +12,12 @@ $GH            = 'https://github.com/'
 $GL            = 'https://gitlab.com/'
 $GIT           = 'git'
 
-###ENT  :::
+###CODE
 $userLinkGH    = $GH+$USERNAME
 $userLinkGL    = $GL+$USERNAME
 $repoLinkGH    = $GH+$USERNAME+'/'+$REPONAME+'.git'
 $repoLinkGL    = $GL+$USERNAME+'/'+$REPONAME+'.git'
-$label         = 'GIT: '+$USERNAME+':::'+$REPONAME
+$label         = 'GIT:('+$VER+') '+$USERNAME+'->'+$REPONAME
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
@@ -24,7 +26,7 @@ $wshell                                    = New-Object -ComObject Wscript.Shell
 $Button                                    = [System.Windows.MessageBoxButton]::YesNoCancel
 $ErrorIco                                  = [System.Windows.MessageBoxImage]::Error
 $Form                                      = New-Object system.Windows.Forms.Form
-#$Form.ClientSize                           = New-Object System.Drawing.Point(700,200) #magass·g,szÈlessÈg
+#$Form.ClientSize                           = New-Object System.Drawing.Point(700,200) #magass√°g,sz√©less√©g
 $Form.text                                 = $label
 $Form.StartPosition                        = "CenterScreen"
 $Form.TopMost                              = $false
@@ -48,14 +50,14 @@ $d_top                                     = 15
 #default panel
 $Panel_default                             = New-Object system.Windows.Forms.Panel
 $Panel_default.height                      = 200
-$Panel_default.width                       = $d_left-$margin_left+200 #szÈlessÈg
+$Panel_default.width                       = $d_left-$margin_left+200 #sz√©less√©g
 $Panel_default.location                    = New-Object System.Drawing.Point(($x_left+$margin_left),($y_top+$margin_top))
 
-###kˆvetkezı panel elıtt:
+###k√∂vetkez≈ë panel el≈ëtt:
 #lefele::: $y_top          = $y_top + 200
 #jobbra::: $x_left         = $x_left + $d_left
 #fel   ::: $y_top          = 0
-$Form.controls.AddRange(@($Panel_default)) ###vesszıvel v·lasztjuk el ha tˆbb panel van
+$Form.controls.AddRange(@($Panel_default)) ###vessz≈ëvel v√°lasztjuk el ha t√∂bb panel van
 
 #Panelek tartalma
 $x_left                                    = 0
@@ -113,8 +115,9 @@ $Panel_default.Controls.Add($GETcommit)
 $GETcommit.Add_Click({
 	Write-Host "BEGIN::: GET commit!"
 	$outVar = (git log -1) | Out-String
-	$outShell = New-Object -ComObject Wscript.Shell
-	$outShell.Popup($outVar,0,"Last Commit")
+	Write-Host "GIT_COMMIT ::: "$outVar
+	#$outShell = New-Object -ComObject Wscript.Shell
+	#$outShell.Popup($outVar,0,"Last Commit")
 	Write-Host "END!"
 })
 $x_left                                         = $x_left + 200
